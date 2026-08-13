@@ -225,3 +225,56 @@ questions = {
         ]
     }
 }
+import random
+
+
+def recommend_questions():
+    topic = input(
+        "Enter a DSA topic (Array, Searching, Sorting, Stack, Queue): "
+    ).strip().title()
+
+    if topic not in questions:
+        print(f"Invalid topic. Available topics: {', '.join(questions.keys())}")
+        return
+
+    difficulty = input(
+        "Enter difficulty level (easy, medium, hard): "
+    ).strip().lower()
+
+    if difficulty not in questions[topic]:
+        print(
+            f"Invalid difficulty for {topic}. "
+            f"Available levels: {', '.join(questions[topic].keys())}"
+        )
+        return
+
+    try:
+        count = int(input("Enter the number of questions: ").strip())
+    except ValueError:
+        print("Please enter a valid number.")
+        return
+
+    if count <= 0:
+        print("Number of questions must be greater than 0.")
+        return
+
+    available_questions = questions[topic][difficulty]
+
+    if count > len(available_questions):
+        print(
+            f"Only {len(available_questions)} question(s) are available "
+            f"for {topic} - {difficulty}."
+        )
+        return
+
+    selected_questions = random.sample(available_questions, count)
+
+    print(f"\nRecommended {topic} questions ({difficulty}):")
+
+    for question in selected_questions:
+        print(f"- {question['title']}")
+        print(f"  {question['description']}")
+
+
+if __name__ == "__main__":
+    recommend_questions()
